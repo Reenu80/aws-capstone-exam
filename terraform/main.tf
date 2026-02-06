@@ -168,7 +168,7 @@ resource "aws_instance" "web" {
   instance_type          = "t2.micro"
   subnet_id              = aws_subnet.public[count.index].id
   vpc_security_group_ids = [aws_security_group.web_sg.id]
-  key_name               = 	25-nov-25-thinkpadoff
+  key_name               = 	streamline.key
 
   user_data = file("${path.module}/userdata.sh")
 
