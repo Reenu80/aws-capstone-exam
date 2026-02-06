@@ -69,7 +69,7 @@ resource "aws_subnet" "private" {
   map_public_ip_on_launch = false
  
   tags = {
-    Name = "streamline-private-${count.index + 1}"
+    Name = "reenu-private-${count.index + 1}"
   }
 }
  
@@ -88,7 +88,7 @@ resource "aws_route_table_association" "private_assoc" {
 # Security Groups
 ############################################
 resource "aws_security_group" "web_sg" {
-  name        = "streamline-web-sg"
+  name        = "reenu-web-sg"
   description = "Allow HTTP from anywhere and SSH from my IP"
   vpc_id      = data.aws_vpc.default.id
  
@@ -119,7 +119,7 @@ ingress {
 }
  
 resource "aws_security_group" "db_sg" {
-  name        = "streamline-db-sg"
+  name        = "reenu-db-sg"
   description = "Allow MySQL from web SG only"
   vpc_id      = data.aws_vpc.default.id
  
@@ -152,7 +152,7 @@ resource "aws_db_subnet_group" "db_subnets" {
 }
  
 resource "aws_db_instance" "mysql" {
-  identifier              = "streamline-db"
+  identifier              = "reenu-db"
   allocated_storage       = 20
   engine                  = "mysql"
   engine_version          = "8.0"
@@ -180,7 +180,7 @@ resource "aws_instance" "web" {
   key_name = "02-06-2026-Nvirginia"   # ← use your existing AWS key pair name
  
   tags = {
-    Name = "streamline-web-${count.index + 1}"
+    Name = "reenu-web-${count.index + 1}"
   }
 }
  
@@ -188,7 +188,7 @@ resource "aws_instance" "web" {
 # ALB + TG + Listener
 ############################################
 resource "aws_lb" "app_lb" {
-  name               = "streamline-alb"
+  name               = "reenu-alb"
   internal           = false
   load_balancer_type = "application"
   subnets            = local.selected_public_subnet_ids
@@ -196,7 +196,7 @@ resource "aws_lb" "app_lb" {
 }
  
 resource "aws_lb_target_group" "tg" {
-  name     = "streamline-tg"
+  name     = "reenu-tg"
   port     = 80
   protocol = "HTTP"
   vpc_id   = data.aws_vpc.default.id
@@ -210,7 +210,7 @@ resource "aws_lb_target_group" "tg" {
     matcher             = "200-399"
   }
  
-  tags = { Name = "streamline-tg" }
+  tags = { Name = "reenu-tg" }
 }
  
 resource "aws_lb_target_group_attachment" "attach" {
